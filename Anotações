@@ -1,0 +1,3 @@
+        PlaylistManager
+Objetivo: Criar um programa de terminal onde você pode criar playlists, adicionar músicas (nome e artista) e salvar/ler em arquivos.
+    Permitir busca de músicas
