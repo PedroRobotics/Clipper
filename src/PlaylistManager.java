@@ -1,5 +1,7 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +38,8 @@ public class PlaylistManager {
 
                 case 3:
                     salvarPlaylist();
-                    System.out.print("Playlist Salva! Gostaria de fazedr outra ação?");
-                    break;
+                    System.out.print("Playlist salva! Até mais!");
+                    return;
 
             
                 default:
@@ -46,7 +48,7 @@ public class PlaylistManager {
             }
         }
     }
-} 
+
 
 private static void adicionarMusica(Scanner scanner) {
     System.out.print("Nome da música: ");
@@ -74,19 +76,20 @@ private static void listarMusicas() {
 private static void salvarPlaylist() {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
         for(Musica musica : playList) {
-            writer.write(musica.getNome()+";"+musica.getArtista()));
+            writer.write(musica.getNome()+";"+musica.getArtista());
             writer.newLine();
         }
     } catch (IOException e) {
         System.out.println("Erro ao Salvar Playlist: " + e.getMessage());
     }
+}
 
-    private static void carregarPlaylist() {
+private static void carregarPlaylist() {
         File arquivo = new File(FILE_NAME);
         if(!arquivo.exists()) {
             return;
         }
-        try {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))){
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] partes = linha.split(";");
