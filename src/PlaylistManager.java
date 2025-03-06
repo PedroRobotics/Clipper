@@ -1,9 +1,13 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class PlaylistManager {
-    private static List<Music> playList = new ArrayList<>();
+    private static List<Musica> playList = new ArrayList<>();
     private static final String FILE_NAME = "Playlist.txt";
 
     public static void main(String[] args) {
@@ -43,6 +47,7 @@ public class PlaylistManager {
         }
     }
 } 
+
 private static void adicionarMusica(Scanner scanner) {
     System.out.print("Nome da música: ");
     String nome = scanner.nextLine();
@@ -50,11 +55,11 @@ private static void adicionarMusica(Scanner scanner) {
     System.out.print("Nome do artista: ");
     String artista = scanner.nextLine();
 
-    playList.add(new Music(nome, artista));
+    playList.add(new Musica(nome, artista));
     System.out.println("Música Adicionada");
 }
 
-private static void listarMusicas(); {
+private static void listarMusicas() {
     if (playList.isEmpty()) {
         System.out.print("Nenhuma música na playlist");
 
@@ -66,8 +71,55 @@ private static void listarMusicas(); {
     }
 }
 
-class Music {
-    private String nome;    
+private static void salvarPlaylist() {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+        for(Musica musica : playList) {
+            writer.write(musica.getNome()+";"+musica.getArtista()));
+            writer.newLine();
+        }
+    } catch (IOException e) {
+        System.out.println("Erro ao Salvar Playlist: " + e.getMessage());
+    }
+
+    private static void carregarPlaylist() {
+        File arquivo = new File(FILE_NAME);
+        if(!arquivo.exists()) {
+            return;
+        }
+        try {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(";");
+                if (partes.length == 2) {
+                    playList.add(new Musica(partes[0], partes[1]));
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Erro ao Salvar Playlist: " + e.getMessage());
+        }
+    }
+}
+
+class Musica {
+
+    private String nome;
     private String artista;
     
+    public Musica(String nome, String artista) {
+        this.nome = nome;
+        this.artista = artista;
+    }
+
+    public String getNome(){
+        return nome;
+    }
+
+    public String getArtista(){
+        return artista;
+    }
+
+    public String toString() {
+        return nome + " - " + artista;
+    }
 }
