@@ -12,9 +12,8 @@ public class PlaylistManager {
     private static List<Musica> playList = new ArrayList<>();
     private static final String FILE_NAME = "Playlist.txt";
 
-    public static void main(String[] args) {
+    public void Menu(){
         Scanner scanner = new Scanner(System.in);
-
         carregarPlaylist();
 
         while (true) {
@@ -47,6 +46,7 @@ public class PlaylistManager {
 
             }
         }
+
     }
 
 
